@@ -1,0 +1,16 @@
+
+.dokuwiki .plugin_loadskin {
+    float: right;
+    margin-bottom: .5em;
+}
+.dokuwiki .plugin_loadskin form label {
+    background: transparent url(images/color_swatch.png) no-repeat 0 center;
+    padding-left: 20px;
+}
+.dokuwiki .plugin_loadskin form label span {
+    display: none;
+}
+
+.dokuwiki div.toc {
+    clear: right;
+}

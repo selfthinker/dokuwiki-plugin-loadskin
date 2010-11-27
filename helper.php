@@ -1,0 +1,60 @@
+<?php
+/**
+ * DokuWiki Helper Plugin LoadSkin
+ *
+ * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
+ * @author     Anika Henke <anika@selfthinker.org>
+ * @author     Michael Klier <chi@chimeric.de>
+ */
+
+// must be run within Dokuwiki
+if(!defined('DOKU_INC')) die();
+
+class helper_plugin_loadskin extends DokuWiki_Plugin {
+
+    /**
+     * Returns an array of available templates to choose from
+     *
+     * @author Michael Klier <chi@chimeric.de>
+     */
+    function getTemplates() {
+        $tpl_dir = DOKU_INC.'lib/tpl/';
+        if ($dh = @opendir($tpl_dir)) {
+            while (false !== ($entry = readdir($dh))) {
+                if ($entry == '.' || $entry == '..') continue;
+                if (!preg_match('/^[\w-]+$/', $entry)) continue;
+
+                $file = (is_link($this->_dir.$entry)) ? readlink($tpl_dir.$entry) : $entry;
+                if (is_dir($tpl_dir.$file)) $list[] = $entry;
+            }
+            closedir($dh);
+            sort($list);
+        }
+        return $list;
+    }
+
+
+    /**
+     * Builds a select box with all available templates
+     *  (unless excluded in 'excludeTemplates')
+     *
+     * @author Anika Henke <anika@selfthinker.org>
+     */
+    function showTemplateSwitcher() {
+        global $conf;
+        $excludeTemplates = array_map('trim', explode(",", $this->getConf('excludeTemplates')));
+        $templates        = array_diff($this->getTemplates(),$excludeTemplates);
+
+        $form = new Doku_Form(array('id' => 'tpl__switcher', 'title' => $this->getLang('switchTpl')));
+        $form->addElement(form_makeListboxField('tpl', $templates, $conf['template'], $this->getLang('template')));
+        $form->addElement(form_makeButton('submit', '', $this->getLang('switch'), array('name' => 'switch')));
+
+        $out  = '<div class="plugin_loadskin">';
+        $out .= $form->getForm();
+        $out .= '</div>';
+
+        return $out;
+    }
+
+
+}
