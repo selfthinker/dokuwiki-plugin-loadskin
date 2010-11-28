@@ -33,9 +33,26 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
 
     // register hook
     function register(&$controller) {
+        $controller->register_hook('DOKUWIKI_STARTED', 'BEFORE', $this, '_handleConf');
+        $controller->register_hook('DOKUWIKI_STARTED', 'AFTER', $this, '_defineConstants');
+        $controller->register_hook('TPL_METAHEADER_OUTPUT', 'BEFORE', $this, '_handleMeta');
         $controller->register_hook('TPL_CONTENT_DISPLAY', 'BEFORE', $this, '_handleContent', array());
-        $controller->register_hook('TPL_METAHEADER_OUTPUT', 'BEFORE', $this, 'handleMeta');
-        $controller->register_hook('DOKUWIKI_STARTED', 'BEFORE', $this, 'handleConf');
+    }
+
+    /**
+     * Define DOKU_TPL and DOKU_TPLINC after $conf['template'] has been overwritten
+     *  (this still needs the original constant definition in init.php to be removed)
+     *
+     * @author Anika Henke <anika@selfthinker.org>
+     */
+    function _defineConstants(&$event, $param) {
+        global $conf;
+
+        // define Template baseURL
+        define('DOKU_TPL', DOKU_BASE.'lib/tpl/'.$conf['template'].'/');
+
+        // define real Template directory
+        define('DOKU_TPLINC', DOKU_INC.'lib/tpl/'.$conf['template'].'/');
     }
 
     /**
@@ -44,7 +61,7 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
      * @author Michael Klier <chi@chimeric.de>
      * @author Anika Henke <anika@selfthinker.org>
      */
-    function handleConf(&$event, $param) {
+    function _handleConf(&$event, $param) {
         global $conf;
 
         $tpl = $this->getTpl();
@@ -61,7 +78,7 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
      * @author Michael Klier <chi@chimeric.de>
      * @author Anika Henke <anika@selfthinker.org>
      */
-    function handleMeta(&$event, $param) {
+    function _handleMeta(&$event, $param) {
         $tpl = $this->getTpl();
 
         if($tpl && $_REQUEST['do'] != 'admin') {
