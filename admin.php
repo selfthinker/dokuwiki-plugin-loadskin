@@ -23,20 +23,6 @@ class admin_plugin_loadskin extends DokuWiki_Admin_Plugin {
     }
 
     /**
-     * return some info
-     */
-    function getInfo() {
-        return array(
-            'author' => 'Michael Klier',
-            'email'  => 'chi@chimeric.de',
-            'date'   => '2008-06-22',
-            'name'   => 'Template Manager',
-            'desc'   => 'Allows to change the template',
-            'url'    => 'http://dokuwiki.org/plugin:loadskin',
-        );
-    }
-
-    /**
      * return sort order for position in admin menu
      */
     function getMenuSort() {

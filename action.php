@@ -20,17 +20,6 @@ require_once(DOKU_PLUGIN.'action.php');
  */
 class action_plugin_loadskin extends DokuWiki_Action_Plugin {
 
-    function getInfo() {
-        return array(
-                'author' => 'Michael Klier',
-                'email'  => 'chi@chimeric.de',
-                'date'   => @file_get_contents(DOKU_PLUGIN.'loadskin/VERSION'),
-                'name'   => 'loadskin',
-                'desc'   => 'Allows to change the template',
-                'url'    => 'http://dokuwiki.org/plugin:loadskin'
-            );
-    }
-
     // register hook
     function register(&$controller) {
         $controller->register_hook('DOKUWIKI_STARTED', 'BEFORE', $this, '_handleConf');
