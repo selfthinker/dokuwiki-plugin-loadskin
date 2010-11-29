@@ -4,5 +4,5 @@
  *
  */
 
-$conf['automaticOutput']  = 1;
+$conf['automaticOutput']  = 0;
 $conf['excludeTemplates'] = '';
