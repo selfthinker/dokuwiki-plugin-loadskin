@@ -42,10 +42,11 @@ class helper_plugin_loadskin extends DokuWiki_Plugin {
      */
     function showTemplateSwitcher() {
         global $conf;
+        global $ID;
         $excludeTemplates = array_map('trim', explode(",", $this->getConf('excludeTemplates')));
         $templates        = array_diff($this->getTemplates(),$excludeTemplates);
 
-        $form = new Doku_Form(array('id' => 'tpl__switcher', 'title' => $this->getLang('switchTpl')));
+        $form = new Doku_Form(array('id' => 'tpl__switcher', 'title' => $this->getLang('switchTpl'), 'action' => wl($ID)));
         $form->addElement(form_makeListboxField('tpl', $templates, $conf['template'], $this->getLang('template')));
         $form->addElement(form_makeButton('submit', '', $this->getLang('switch'), array('name' => 'switch')));
 
