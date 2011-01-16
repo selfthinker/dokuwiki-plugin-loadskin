@@ -99,10 +99,13 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
      * @author Anika Henke <anika@selfthinker.org>
      */
     function getTpl() {
+        $helper = $this->loadHelper('loadskin', true);
+        $tpls   = $helper->getTemplates();
+
         // get template from session
-        if ($_REQUEST['tpl'])
+        if ($_REQUEST['tpl'] && in_array($_REQUEST['tpl'], $tpls))
             $_SESSION[DOKU_COOKIE]['loadskinTpl'] = $_REQUEST['tpl'];
-        if ($_SESSION[DOKU_COOKIE]['loadskinTpl'])
+        if ($_SESSION[DOKU_COOKIE]['loadskinTpl'] && in_array($_SESSION[DOKU_COOKIE]['loadskinTpl'], $tpls))
             return $_SESSION[DOKU_COOKIE]['loadskinTpl'];
 
         // get template from namespace/page and config
