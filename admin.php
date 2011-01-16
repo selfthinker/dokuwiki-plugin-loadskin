@@ -19,7 +19,7 @@ class admin_plugin_loadskin extends DokuWiki_Admin_Plugin {
      */
     function admin_plugin_loadskin() {
         $this->setupLocale();
-        $this->config = DOKU_INC.'conf/loadskin.conf';
+        $this->config = DOKU_CONF.'loadskin.conf';
     }
 
     /**

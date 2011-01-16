@@ -114,7 +114,7 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
 
         // get template from namespace/page and config
         global $ID;
-        $config = DOKU_INC.'conf/loadskin.conf';
+        $config = DOKU_CONF.'loadskin.conf';
 
         if(@file_exists($config)) {
             $data = unserialize(io_readFile($config, false));
