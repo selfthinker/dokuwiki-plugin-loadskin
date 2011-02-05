@@ -99,20 +99,62 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
      * @author Anika Henke <anika@selfthinker.org>
      */
     function getTpl() {
+        $tplPerUser = $this->_getTplPerUser();
+        if($tplPerUser)
+            return $tplPerUser;
 
-        // get template from session
+        $tplPerNamespace = $this->_getTplPerNamespace();
+        if($tplPerNamespace)
+            return $tplPerNamespace;
+
+        return false;
+    }
+
+    /**
+     * Get template from session and/or user config
+     *
+     * @author Anika Henke <anika@selfthinker.org>
+     */
+    function _getTplPerUser() {
+        // get all available templates
         $helper = $this->loadHelper('loadskin', true);
         $tpls   = $helper->getTemplates();
 
-        $tplRequest = $_REQUEST['tpl'];
-        if ($tplRequest && in_array($tplRequest, $tpls))
-            $_SESSION[DOKU_COOKIE]['loadskinTpl'] = $tplRequest;
+        $user = $_SERVER['REMOTE_USER'];
 
-        $tplCookie  = $_SESSION[DOKU_COOKIE]['loadskinTpl'];
+        $tplRequest = $_REQUEST['tpl'];
+        if ($tplRequest && in_array($tplRequest, $tpls)) {
+            // store in cookie
+            $_SESSION[DOKU_COOKIE]['loadskinTpl'] = $tplRequest;
+            // if registered user, store also in conf file
+            if ($user)
+                $this->_setTplConfig($user, $tplRequest);
+            return $tplRequest;
+        }
+
+        $tplUser   = $this->_getTplConfig($user);// from user conf file
+        $tplCookie = $_SESSION[DOKU_COOKIE]['loadskinTpl'];
+        // if logged in and user is in conf
+        if ($user && $tplUser && in_array($tplUser, $tpls)){
+            if ($tplCookie && ($tplCookie == $tplUser))
+                return $tplCookie;
+            // store in cookie
+            $_SESSION[DOKU_COOKIE]['loadskinTpl'] = $tplUser;
+            return $tplUser;
+        }
         if ($tplCookie && in_array($tplCookie, $tpls))
             return $tplCookie;
 
-        // get template from namespace/page and config
+        return false;
+    }
+
+    /**
+     * Get template from namespace/page and config
+     *
+     * @author Michael Klier <chi@chimeric.de>
+     * @author Anika Henke <anika@selfthinker.org>
+     */
+    function _getTplPerNamespace() {
         global $ID;
         $config = DOKU_CONF.'loadskin.conf';
 
@@ -133,6 +175,38 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
         }
         return false;
     }
+
+    /**
+     * Save template for user in config
+     *
+     * @author Anika Henke <anika@selfthinker.org>
+     */
+    function _setTplConfig($user, $tpl) {
+        $data = array();
+        $userConf = DOKU_CONF.'loadskin.users.conf';
+        if(@file_exists($userConf)) {
+            $data = unserialize(io_readFile($userConf, false));
+            unset($data[$user]);
+        }
+        $data[$user] = $tpl;
+        io_saveFile($userConf, serialize($data));
+    }
+
+    /**
+     * Get template for user from config
+     *
+     * @author Anika Henke <anika@selfthinker.org>
+     */
+    function _getTplConfig($user) {
+        $data = array();
+        $userConf = DOKU_CONF.'loadskin.users.conf';
+        if(@file_exists($userConf)) {
+            $data = unserialize(io_readFile($userConf, false));
+            return $data[$user];
+        }
+        return false;
+    }
+
 }
 
-// vim:ts=4:sw=4:enc=utf-8:
+// vim:ts=4:sw=4:
