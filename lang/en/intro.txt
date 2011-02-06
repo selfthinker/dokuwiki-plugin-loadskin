@@ -4,4 +4,4 @@ This page allows you to specify different templates for different pages/namespac
 
 The page check is recursive, that means, if you specify a different template for a wiki page ''wiki'' all other pages inside the ''wiki:'' namespace will use this template as well.
 
-**Important note:** In order to make the plugin work correctly you have to follow the instructions at [[http://wiki.splitbrain.org/plugin:loadskin#installation]].
+**Important note:** In order to make the plugin work correctly you have to follow the instructions on [[http://www.dokuwiki.org/plugin:loadskin#download_and_installation|the plugin's page]].

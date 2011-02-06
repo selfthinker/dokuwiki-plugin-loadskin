@@ -4,6 +4,6 @@
  */
 
 $lang['template']  = 'Template';
-$lang['menu']      = 'Template Manager';
+$lang['menu']      = 'LoadSkin Template Manager';
 $lang['switchTpl'] = 'Switch template';
 $lang['switch']    = 'Switch';
