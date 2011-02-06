@@ -124,7 +124,11 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
 
         $tplRequest = $_REQUEST['tpl'];
         $actSelect  = $_REQUEST['act'] && ($_REQUEST['act']=='select');
-        if ($tplRequest && $actSelect && in_array($tplRequest, $tpls)) {
+
+        if ($tplRequest && $actSelect && (in_array($tplRequest, $tpls) || ($tplRequest == '*') )) {
+            // "secret" way of deleting the cookie and config values
+            if ($tplRequest == '*')
+                $tplRequest = '';
             // store in cookie
             $_SESSION[DOKU_COOKIE]['loadskinTpl'] = $tplRequest;
             // if registered user, store also in conf file
@@ -189,7 +193,9 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
             $data = unserialize(io_readFile($userConf, false));
             unset($data[$user]);
         }
-        $data[$user] = $tpl;
+        // keep line deleted if $tpl is empty
+        if ($tpl)
+            $data[$user] = $tpl;
         io_saveFile($userConf, serialize($data));
     }
 
