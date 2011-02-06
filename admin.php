@@ -78,7 +78,7 @@ class admin_plugin_loadskin extends DokuWiki_Admin_Plugin {
         $form->addElement(form_makeOpenTag('p'));
         $form->addElement(form_makeListboxField('tpl',$helper->getTemplates(),'',$this->getLang('template')));
         $form->addElement(form_makeCloseTag('p'));
-        $form->addElement(form_makeButton('submit','admin',$lang['btn_save']));
+        $form->addElement(form_makeButton('submit','',$lang['btn_save']));
         $form->endFieldSet();
         $form->printForm();
 
@@ -107,7 +107,7 @@ class admin_plugin_loadskin extends DokuWiki_Admin_Plugin {
                     $form->addHidden('act','del');
                     $form->addHidden('id',$ID);
                     $form->addHidden('pattern',$key);
-                    $form->addElement(form_makeButton('submit','admin',$lang['btn_delete']));
+                    $form->addElement(form_makeButton('submit','',$lang['btn_delete']));
                     $form->printForm();
 
                     echo '    </td>' . DOKU_LF;

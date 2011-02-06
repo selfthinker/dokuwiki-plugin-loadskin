@@ -123,7 +123,8 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
         $user = $_SERVER['REMOTE_USER'];
 
         $tplRequest = $_REQUEST['tpl'];
-        if ($tplRequest && in_array($tplRequest, $tpls)) {
+        $actSelect  = $_REQUEST['act'] && ($_REQUEST['act']=='select');
+        if ($tplRequest && $actSelect && in_array($tplRequest, $tpls)) {
             // store in cookie
             $_SESSION[DOKU_COOKIE]['loadskinTpl'] = $tplRequest;
             // if registered user, store also in conf file
