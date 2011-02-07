@@ -133,11 +133,11 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
             $_SESSION[DOKU_COOKIE]['loadskinTpl'] = $tplRequest;
             // if registered user, store also in conf file
             if ($user)
-                $this->_setTplConfig($user, $tplRequest);
+                $this->_tplUserConfig('set', $user, $tplRequest);
             return $tplRequest;
         }
 
-        $tplUser   = $this->_getTplConfig($user);// from user conf file
+        $tplUser   = $this->_tplUserConfig('get', $user);// from user conf file
         $tplCookie = $_SESSION[DOKU_COOKIE]['loadskinTpl'];
         // if logged in and user is in conf
         if ($user && $tplUser && in_array($tplUser, $tpls)){
@@ -182,38 +182,26 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
     }
 
     /**
-     * Save template for user in config
+     * Get/set template for user in config
      *
      * @author Anika Henke <anika@selfthinker.org>
      */
-    function _setTplConfig($user, $tpl) {
+    function _tplUserConfig($act, $user, $tpl='') {
         $data = array();
         $userConf = DOKU_CONF.'loadskin.users.conf';
         if(@file_exists($userConf)) {
             $data = unserialize(io_readFile($userConf, false));
+            if ($act == 'get')
+                return $data[$user];
             unset($data[$user]);
         }
+        if ($act == 'get')
+            return false;
         // keep line deleted if $tpl is empty
         if ($tpl)
             $data[$user] = $tpl;
         io_saveFile($userConf, serialize($data));
     }
-
-    /**
-     * Get template for user from config
-     *
-     * @author Anika Henke <anika@selfthinker.org>
-     */
-    function _getTplConfig($user) {
-        $data = array();
-        $userConf = DOKU_CONF.'loadskin.users.conf';
-        if(@file_exists($userConf)) {
-            $data = unserialize(io_readFile($userConf, false));
-            return $data[$user];
-        }
-        return false;
-    }
-
 }
 
 // vim:ts=4:sw=4:
