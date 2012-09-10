@@ -6,3 +6,5 @@
 
 $conf['automaticOutput']  = 0;
 $conf['excludeTemplates'] = '';
+$conf['mobileSwitch']     = 0;
+$conf['mobileTemplate']   = '';

@@ -37,14 +37,27 @@ class helper_plugin_loadskin extends DokuWiki_Plugin {
     /**
      * Builds a select box with all available templates
      *  (unless excluded in 'excludeTemplates')
+     *  or show only two templates for mobile switcher: standard plus mobile template
      *
      * @author Anika Henke <anika@selfthinker.org>
      */
     function showTemplateSwitcher() {
         global $conf;
         global $ID;
-        $excludeTemplates = array_map('trim', explode(",", $this->getConf('excludeTemplates')));
-        $templates        = array_diff($this->getTemplates(),$excludeTemplates);
+
+        $mobileSwitch = $this->getConf('mobileSwitch');
+        $mobileTpl = $this->getConf('mobileTemplate');
+        if ($mobileSwitch && $mobileTpl) {
+            // templates for mobile switcher
+            $templates = array(
+                $mobileTpl                             => $this->getLang('switchMobile'),
+                $_SESSION[DOKU_COOKIE]['loadskinOrig'] => $this->getLang('switchFull')
+            );
+        } else {
+            // all templates (minus excluded templates)
+            $excludeTemplates = array_map('trim', explode(",", $this->getConf('excludeTemplates')));
+            $templates        = array_diff($this->getTemplates(),$excludeTemplates);
+        }
 
         $form = new Doku_Form(array(
             'id' => 'tpl__switcher',

@@ -60,8 +60,13 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
     function _handleConf(&$event, $param) {
         global $conf;
 
-        $tpl = $this->getTpl();
+        // store original template in cookie
+        $tplOrigCookie = $_SESSION[DOKU_COOKIE]['loadskinOrig'];
+        if ((!$tplOrigCookie) || ($tplOrigCookie != $conf['template']))
+            $_SESSION[DOKU_COOKIE]['loadskinOrig'] = $conf['template'];
 
+        // set template
+        $tpl = $this->getTpl();
         if($tpl && $_REQUEST['do'] != 'admin') {
             $conf['template'] = $tpl;
         }
@@ -127,35 +132,46 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
         $helper = $this->loadHelper('loadskin', true);
         $tpls   = $helper->getTemplates();
 
+        $mobileSwitch = $this->getConf('mobileSwitch');
         $user = $_SERVER['REMOTE_USER'];
 
         $tplRequest = $_REQUEST['tpl'];
         $actSelect  = $_REQUEST['act'] && ($_REQUEST['act']=='select');
 
+        // if template switcher was used
         if ($tplRequest && $actSelect && (in_array($tplRequest, $tpls) || ($tplRequest == '*') )) {
             // "secret" way of deleting the cookie and config values
             if ($tplRequest == '*')
                 $tplRequest = '';
             // store in cookie
             $_SESSION[DOKU_COOKIE]['loadskinTpl'] = $tplRequest;
-            // if registered user, store also in conf file
-            if ($user)
+            // if registered user, store also in conf file (not for mobile switcher)
+            if ($user && !$mobileSwitch)
                 $this->_tplUserConfig('set', $user, $tplRequest);
             return $tplRequest;
         }
 
         $tplUser   = $this->_tplUserConfig('get', $user);// from user conf file
         $tplCookie = $_SESSION[DOKU_COOKIE]['loadskinTpl'];
-        // if logged in and user is in conf
-        if ($user && $tplUser && in_array($tplUser, $tpls)){
+        // if logged in and user is in conf (not for mobile)
+        if ($user && $tplUser && in_array($tplUser, $tpls) && !$mobileSwitch){
             if ($tplCookie && ($tplCookie == $tplUser))
                 return $tplCookie;
             // store in cookie
             $_SESSION[DOKU_COOKIE]['loadskinTpl'] = $tplUser;
             return $tplUser;
         }
+        // if template is stored in cookie
         if ($tplCookie && in_array($tplCookie, $tpls))
             return $tplCookie;
+
+        // if viewed on a mobile and mobile switcher is used, set mobile template as default
+        global $INFO;
+        $mobileTpl = $this->getConf('mobileTemplate');
+        if ($mobileTpl && $INFO['ismobile']) {
+            $_SESSION[DOKU_COOKIE]['loadskinTpl'] = $mobileTpl;
+            return $mobileTpl;
+        }
 
         return false;
     }
