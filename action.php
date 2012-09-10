@@ -25,11 +25,7 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
         $controller->register_hook('DOKUWIKI_STARTED', 'BEFORE', $this, '_handleConf');
         $controller->register_hook('MEDIAMANAGER_STARTED', 'BEFORE', $this, '_handleConf');
         $controller->register_hook('DETAIL_STARTED', 'BEFORE', $this, '_handleConf');
-        /* since tpl_basedir() and tpl_incdir() exist and are used instead of DOKU_TPL and
-            DOKU_TPLINC, _defineConstants() isn't needed anymore */
-        if (!function_exists('tpl_basedir')) {
-            $controller->register_hook('DOKUWIKI_STARTED', 'AFTER', $this, '_defineConstants');
-        }
+        $controller->register_hook('DOKUWIKI_STARTED', 'AFTER', $this, '_defineConstants');
         $controller->register_hook('TPL_METAHEADER_OUTPUT', 'BEFORE', $this, '_handleMeta');
         $controller->register_hook('TPL_CONTENT_DISPLAY', 'BEFORE', $this, '_handleContent', array());
     }
