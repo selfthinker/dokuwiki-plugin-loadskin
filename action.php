@@ -82,7 +82,8 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
      * @author Anika Henke <anika@selfthinker.org>
      */
     function _handleContent(&$event, $param){
-        if ($this->getConf('automaticOutput')) {
+        global $ACT;
+        if ($this->getConf('automaticOutput') && $ACT == 'show') {
             $helper = $this->loadHelper('loadskin', true);
             $event->data = $helper->showTemplateSwitcher().$event->data;
         }
