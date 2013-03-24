@@ -31,3 +31,15 @@
 [dir=rtl] .dokuwiki #dw__toc {
     clear: left;
 }
+
+/* adjustments to the admin section */
+#plugin__loadskin fieldset {
+    margin: 0 0 1.4em;
+    text-align: left;
+}
+#plugin__loadskin fieldset label span {
+    display: block;
+}
+#plugin__loadskin fieldset p {
+    margin-bottom: .7em;
+}

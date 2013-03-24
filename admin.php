@@ -64,6 +64,7 @@ class admin_plugin_loadskin extends DokuWiki_Admin_Plugin {
         global $lang;
         $helper = $this->loadHelper('loadskin', true);
 
+        print '<div id="plugin__loadskin">';
         print $this->locale_xhtml('intro');
 
         $form = new Doku_Form(array());
@@ -73,7 +74,7 @@ class admin_plugin_loadskin extends DokuWiki_Admin_Plugin {
         $form->addHidden('page','loadskin');
         $form->addHidden('act','add');
         $form->addElement(form_makeOpenTag('p'));
-        $form->addElement(form_makeTextField('pattern','',$lang['mu_namespace']));
+        $form->addElement(form_makeTextField('pattern','',$this->getLang('pattern')));
         $form->addElement(form_makeCloseTag('p'));
         $form->addElement(form_makeOpenTag('p'));
         $form->addElement(form_makeListboxField('tpl',$helper->getTemplates(),'',$this->getLang('template')));
@@ -82,18 +83,15 @@ class admin_plugin_loadskin extends DokuWiki_Admin_Plugin {
         $form->endFieldSet();
         $form->printForm();
 
-        echo '<br />' . DOKU_LF;
-        echo '<br />' . DOKU_LF;
-
         if(@file_exists($this->config)) {
             $data = unserialize(io_readFile($this->config, false));
 
             if(!empty($data)) {
                 echo '<table class="inline">' . DOKU_LF;
                 echo '  <tr>' . DOKU_LF;
-                echo '    <th>' . $lang['mu_namespace'] . '</th>' . DOKU_LF;
+                echo '    <th>' . $this->getLang('pattern') . '</th>' . DOKU_LF;
                 echo '    <th>' . $this->getLang('template') . '</th>' . DOKU_LF;
-                echo '    <th>&nbsp;</th>' . DOKU_LF;
+                echo '    <th>' . $this->getLang('action') . '</th>' . DOKU_LF;
                 echo '  </tr>' . DOKU_LF;
                 foreach($data as $key => $value) {
                     echo '  <tr>' . DOKU_LF;
@@ -116,6 +114,7 @@ class admin_plugin_loadskin extends DokuWiki_Admin_Plugin {
                 echo '</table>' . DOKU_LF;
             }
         }
+        print '</div>';
     }
 
 }
