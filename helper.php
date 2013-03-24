@@ -24,7 +24,7 @@ class helper_plugin_loadskin extends DokuWiki_Plugin {
                 if ($entry == '.' || $entry == '..') continue;
                 if (!preg_match('/^[\w-]+$/', $entry)) continue;
 
-                $file = (is_link($this->_dir.$entry)) ? readlink($tpl_dir.$entry) : $entry;
+                $file = (is_link($tpl_dir.$entry)) ? readlink($tpl_dir.$entry) : $entry;
                 if (is_dir($tpl_dir.$file)) $list[] = $entry;
             }
             closedir($dh);
