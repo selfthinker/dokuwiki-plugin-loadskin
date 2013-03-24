@@ -40,13 +40,19 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
      * @author Anika Henke <anika@selfthinker.org>
      */
     function _defineConstants(&$event, $param) {
-        global $conf;
+        if (defined('DOKU_TPL') || defined('DOKU_TPLINC')) {
+            msg('This template uses deprecated DOKU_TPL and DOKU_TPLINC and will therefore not work
+                properly with the loadskin plugin. Please remove their definition from inc/init.php
+                or fix the template.', -1);
+        } else {
+            global $conf;
 
-        // define Template baseURL
-        define('DOKU_TPL', DOKU_BASE.'lib/tpl/'.$conf['template'].'/');
+            // define Template baseURL
+            define('DOKU_TPL', DOKU_BASE.'lib/tpl/'.$conf['template'].'/');
 
-        // define real Template directory
-        define('DOKU_TPLINC', DOKU_INC.'lib/tpl/'.$conf['template'].'/');
+            // define real Template directory
+            define('DOKU_TPLINC', DOKU_INC.'lib/tpl/'.$conf['template'].'/');
+        }
     }
 
     /**
