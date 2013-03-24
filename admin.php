@@ -64,7 +64,7 @@ class admin_plugin_loadskin extends DokuWiki_Admin_Plugin {
         global $lang;
         $helper = $this->loadHelper('loadskin', true);
 
-        print $this->plugin_locale_xhtml('intro');
+        print $this->locale_xhtml('intro');
 
         $form = new Doku_Form(array());
         $form->startFieldSet('Add rule');
