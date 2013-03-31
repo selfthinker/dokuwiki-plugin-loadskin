@@ -44,6 +44,9 @@ class helper_plugin_loadskin extends DokuWiki_Plugin {
     function showTemplateSwitcher() {
         global $conf;
         global $ID;
+        global $ACT;
+
+        if ($ACT != 'show') return;
 
         $mobileSwitch = $this->getConf('mobileSwitch');
         $mobileTpl = $this->getConf('mobileTemplate');
