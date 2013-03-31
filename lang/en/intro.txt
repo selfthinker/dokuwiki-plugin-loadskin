@@ -1,5 +1,5 @@
 ====== Template Manager ======
 
-This page allows you to specify different templates for different pages/namespaces in your wiki.
+This page allows you to specify different templates for different pages/namespaces in your wiki. Please note, a user selecting a template via the optional template switcher might have precedence over these rules (depending on the ''preferUserChoice'' config setting).
 
 The page check is recursive, that means, if you specify a different template for a wiki page ''wiki'' all other pages inside the ''wiki:'' namespace will use this template as well.

@@ -82,7 +82,10 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
      * @author Anika Henke <anika@selfthinker.org>
      */
     function _handleContent(&$event, $param){
-        if ($this->getConf('automaticOutput')) {
+        // @todo: should ideally be in showTemplateSwitcher()
+        $isOverwrittenByAdmin = !$this->getConf('preferUserChoice') && $this->_getTplPerNamespace();
+
+        if ($this->getConf('automaticOutput') && !$isOverwrittenByAdmin) {
             $helper = $this->loadHelper('loadskin', true);
             $event->data = $helper->showTemplateSwitcher().$event->data;
         }
@@ -96,12 +99,19 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
      */
     function getTpl() {
         $tplPerUser = $this->_getTplPerUser();
-        if($tplPerUser)
-            return $tplPerUser;
-
         $tplPerNamespace = $this->_getTplPerNamespace();
-        if($tplPerNamespace)
-            return $tplPerNamespace;
+
+        if($this->getConf('preferUserChoice')) {
+            if($tplPerUser)
+                return $tplPerUser;
+            if($tplPerNamespace)
+                return $tplPerNamespace;
+        } else {
+            if($tplPerNamespace)
+                return $tplPerNamespace;
+            if($tplPerUser)
+                return $tplPerUser;
+        }
 
         return false;
     }
