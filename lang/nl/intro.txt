@@ -1,0 +1,5 @@
+====== Templatebeheerder ======
+
+Deze pagina laat je verschillende templates specificeren voor verschillende pagina's/namespaces in je wiki. Merk alsjeblieft op, dat een gebruiker die een template selecteert via de optionele templatekiezer voorrang heeft op deze regels (afhankelijk van de ''preferUserChoice'' configuratieinstelling).
+
+De paginacheck is recursief, dit betekent dat als je een andere template voor een wikipagina ''wiki'' specificeert dat alle andere pagina's in de ''wiki:'' namespace ook deze template zullen gebruiken.
