@@ -1,0 +1,5 @@
+====== Gestionnaire de modèles ======
+
+Cette page permet d'indiquer différents [[fr:template|modèles]] pour différentes pages ou catégories de votre wiki. Veuillez noter qu'un utilisateur qui sélectionne un modèle grâce au sélecteur de modèle peut avoir priorité sur les règles établies ici (si l'option ''preferUserChoice'' est activée).
+
+Le réglage par page est récursif, cela signifie que si vous choisissez un modèle pour une page ''wiki'', toutes les pages de la catégorie ''wiki:'', si elle existe, utiliseront ce même modèle.
