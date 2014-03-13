@@ -1,0 +1,5 @@
+====== Template Manager ======
+
+Diese Seite erlaubt es, verschiedene Templates für unterschiedliche Seiten/Namensräume im Wiki festzulegen. Dabei ist zu beachten, dass die Auswahl eines Templates über den optionalen Template-Switcher durch den Benutzer Vorrang hat (je nach Einstellung des "preferUserChoice"-Eintrags in der Konfiguration).
+
+Die Seitenüberprüfung erfolgt rekursiv, also haben alle untergeordneten Seiten innerhalb eines Namensraumes, für den ein Template ausgewählt wurde, zunächst das gleiche Template, wie ihr übergeordneter Namensraum.
