@@ -1,0 +1,5 @@
+====== Ŝablona administrado =====
+
+Jen vi povas difini diversajn ŝablonojn por diversaj paĝoj/nomspacoj en via vikio. Atentu, ke uzanto kiu selektas ŝablonon tra la opcia ŝablon-ŝanĝilo povus preterpasi ĉi regulojn (depende de la agordo "preferUserChoice").
+
+La paĝkontrolo estas rekursiva, do se vi difinas alian ŝablonon por paĝo "viki", ĉiuj aliaj paĝoj ene de la nomspaco "viki:" ankaŭ uzos tiun ŝablonon.
