@@ -179,6 +179,15 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
             $data = unserialize(io_readFile($config, false));
             $id   = $ID;
 
+            // remove language path from $id before you check for a match (it would only be at the start)
+            if (file_exists(DOKU_PLUGIN."translation/helper.php") && !plugin_isdisabled("translation")) {
+                $transplugin = &plugin_load("helper", "translation");
+                $langPath = $transplugin->getLangPart($ID).':';
+                $pos = strpos($id, $langPath);
+                if (($pos !== false) and ($pos == 0))
+                    $id = str_ireplace($langPath, '', $id);
+            }
+
             if($data[$id]) return $data[$id];
 
             $path  = explode(':', $id);
