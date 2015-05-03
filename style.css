@@ -43,3 +43,24 @@
 #plugin__loadskin fieldset p {
     margin-bottom: .7em;
 }
+
+/* adjustments for the default dokuwiki template */
+
+.tpl_dokuwiki .plugin_loadskin {
+    border: solid #ccc;
+    border-width: 0 0 0 1px;
+    margin: -1.556em -2em 1.5em 0;
+    padding: .5em 1em;
+    width: 14em;
+}
+.tpl_dokuwiki .plugin_loadskin form {
+    float: right;
+}
+[dir=rtl] .tpl_dokuwiki .plugin_loadskin {
+    border-width: 0 1px 0 0;
+    margin-left: -2em;
+    margin-right: 0;
+}
+[dir=rtl] .tpl_dokuwiki .plugin_loadskin form {
+    float: left;
+}
