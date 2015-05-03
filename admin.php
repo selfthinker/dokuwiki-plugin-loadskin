@@ -17,7 +17,7 @@ class admin_plugin_loadskin extends DokuWiki_Admin_Plugin {
     /**
      * Constructor
      */
-    function admin_plugin_loadskin() {
+    public function admin_plugin_loadskin() {
         $this->setupLocale();
         $this->config = DOKU_CONF.'loadskin.conf';
     }
@@ -25,14 +25,14 @@ class admin_plugin_loadskin extends DokuWiki_Admin_Plugin {
     /**
      * return sort order for position in admin menu
      */
-    function getMenuSort() {
+    public function getMenuSort() {
         return 300;
     }
 
     /**
      * handle user request
      */
-    function handle() {
+    public function handle() {
         $data = array();
 
         if(!empty($_REQUEST['pattern'])) {
@@ -60,7 +60,7 @@ class admin_plugin_loadskin extends DokuWiki_Admin_Plugin {
     /**
      * output appropriate html
      */
-    function html() {
+    public function html() {
         global $lang;
         $helper = $this->loadHelper('loadskin', true);
 

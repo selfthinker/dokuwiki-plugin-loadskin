@@ -21,7 +21,7 @@ require_once(DOKU_PLUGIN.'action.php');
 class action_plugin_loadskin extends DokuWiki_Action_Plugin {
 
     // register hook
-    function register(&$controller) {
+    public function register(&$controller) {
         $controller->register_hook('DOKUWIKI_STARTED', 'BEFORE', $this, '_handleConf');
         $controller->register_hook('MEDIAMANAGER_STARTED', 'BEFORE', $this, '_handleConf');
         $controller->register_hook('DETAIL_STARTED', 'BEFORE', $this, '_handleConf');
@@ -39,7 +39,7 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
      *
      * @author Anika Henke <anika@selfthinker.org>
      */
-    function _defineConstants(&$event, $param) {
+    public function _defineConstants(&$event, $param) {
         global $conf;
 
         // define Template baseURL
@@ -57,7 +57,7 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
      * @author Michael Klier <chi@chimeric.de>
      * @author Anika Henke <anika@selfthinker.org>
      */
-    function _handleConf(&$event, $param) {
+    public function _handleConf(&$event, $param) {
         global $conf;
 
         // store original template in helper attribute
@@ -65,7 +65,7 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
         $helper->origTpl = $conf['template'];
 
         // set template
-        $tpl = $this->getTpl();
+        $tpl = $this->_getTpl();
         if($tpl && $_REQUEST['do'] != 'admin') {
             $conf['template'] = $tpl;
         }
@@ -76,7 +76,7 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
      *
      * @author Anika Henke <anika@selfthinker.org>
      */
-    function _handleContent(&$event, $param){
+    public function _handleContent(&$event, $param){
         // @todo: should ideally be in showTemplateSwitcher()
         $isOverwrittenByAdmin = !$this->getConf('preferUserChoice') && $this->_getTplPerNamespace();
 
@@ -92,7 +92,7 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
      * @author Michael Klier <chi@chimeric.de>
      * @author Anika Henke <anika@selfthinker.org>
      */
-    function getTpl() {
+    private function _getTpl() {
         $tplPerUser = $this->_getTplPerUser();
         $tplPerNamespace = $this->_getTplPerNamespace();
 
@@ -116,7 +116,7 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
      *
      * @author Anika Henke <anika@selfthinker.org>
      */
-    function _getTplPerUser() {
+    private function _getTplPerUser() {
         // get all available templates
         $helper = $this->loadHelper('loadskin', true);
         $tpls   = $helper->getTemplates();
@@ -171,7 +171,7 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
      * @author Michael Klier <chi@chimeric.de>
      * @author Anika Henke <anika@selfthinker.org>
      */
-    function _getTplPerNamespace() {
+    private function _getTplPerNamespace() {
         global $ID;
         $config = DOKU_CONF.'loadskin.conf';
 
@@ -197,7 +197,7 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
      *
      * @author Anika Henke <anika@selfthinker.org>
      */
-    function _tplUserConfig($act, $user, $tpl='') {
+    private function _tplUserConfig($act, $user, $tpl='') {
         $data = array();
         $userConf = DOKU_CONF.'loadskin.users.conf';
         if(@file_exists($userConf)) {

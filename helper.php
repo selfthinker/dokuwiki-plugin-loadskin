@@ -12,14 +12,14 @@ if(!defined('DOKU_INC')) die();
 
 class helper_plugin_loadskin extends DokuWiki_Plugin {
 
-    var $origTpl;
+    public $origTpl;
 
     /**
      * Returns an array of available templates to choose from
      *
      * @author Michael Klier <chi@chimeric.de>
      */
-    function getTemplates() {
+    public function getTemplates() {
         $tpl_dir = DOKU_INC.'lib/tpl/';
         if ($dh = @opendir($tpl_dir)) {
             while (false !== ($entry = readdir($dh))) {
@@ -43,7 +43,7 @@ class helper_plugin_loadskin extends DokuWiki_Plugin {
      *
      * @author Anika Henke <anika@selfthinker.org>
      */
-    function showTemplateSwitcher() {
+    public function showTemplateSwitcher() {
         global $conf;
         global $ID;
         global $ACT;
@@ -92,6 +92,5 @@ class helper_plugin_loadskin extends DokuWiki_Plugin {
 
         return $out;
     }
-
 
 }
