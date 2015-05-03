@@ -60,10 +60,9 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
     function _handleConf(&$event, $param) {
         global $conf;
 
-        // store original template in cookie
-        $tplOrigCookie = $_SESSION[DOKU_COOKIE]['loadskinOrig'];
-        if ((!$tplOrigCookie) || ($tplOrigCookie != $conf['template']))
-            $_SESSION[DOKU_COOKIE]['loadskinOrig'] = $conf['template'];
+        // store original template in helper attribute
+        $helper = $this->loadHelper('loadskin', true);
+        $helper->origTpl = $conf['template'];
 
         // set template
         $tpl = $this->getTpl();
@@ -130,11 +129,11 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
 
         // if template switcher was used
         if ($tplRequest && $actSelect && (in_array($tplRequest, $tpls) || ($tplRequest == '*') )) {
-            // "secret" way of deleting the cookie and config values
+            // hidden way of deleting the cookie and config values
             if ($tplRequest == '*')
-                $tplRequest = '';
+                $tplRequest = false; // not backwards-compatible, will only work with core PR #1129
             // store in cookie
-            $_SESSION[DOKU_COOKIE]['loadskinTpl'] = $tplRequest;
+            set_doku_pref('loadskinTpl', $tplRequest);
             // if registered user, store also in conf file (not for mobile switcher)
             if ($user && !$mobileSwitch)
                 $this->_tplUserConfig('set', $user, $tplRequest);
@@ -142,13 +141,13 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
         }
 
         $tplUser   = $this->_tplUserConfig('get', $user);// from user conf file
-        $tplCookie = $_SESSION[DOKU_COOKIE]['loadskinTpl'];
+        $tplCookie = get_doku_pref('loadskinTpl', '');
         // if logged in and user is in conf (not for mobile)
         if ($user && $tplUser && in_array($tplUser, $tpls) && !$mobileSwitch){
             if ($tplCookie && ($tplCookie == $tplUser))
                 return $tplCookie;
             // store in cookie
-            $_SESSION[DOKU_COOKIE]['loadskinTpl'] = $tplUser;
+            set_doku_pref('loadskinTpl', $tplUser);
             return $tplUser;
         }
         // if template is stored in cookie
@@ -159,7 +158,7 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
         global $INFO;
         $mobileTpl = $this->getConf('mobileTemplate');
         if ($mobileTpl && $INFO['ismobile']) {
-            $_SESSION[DOKU_COOKIE]['loadskinTpl'] = $mobileTpl;
+            set_doku_pref('loadskinTpl', $mobileTpl);
             return $mobileTpl;
         }
 

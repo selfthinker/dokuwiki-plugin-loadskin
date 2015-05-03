@@ -12,6 +12,8 @@ if(!defined('DOKU_INC')) die();
 
 class helper_plugin_loadskin extends DokuWiki_Plugin {
 
+    var $origTpl;
+
     /**
      * Returns an array of available templates to choose from
      *
@@ -53,8 +55,8 @@ class helper_plugin_loadskin extends DokuWiki_Plugin {
         if ($mobileSwitch && $mobileTpl) {
             // templates for mobile switcher
             $templates = array(
-                $mobileTpl                             => $this->getLang('switchMobile'),
-                $_SESSION[DOKU_COOKIE]['loadskinOrig'] => $this->getLang('switchFull')
+                $mobileTpl     => $this->getLang('switchMobile'),
+                $this->origTpl => $this->getLang('switchFull')
             );
         } else {
             // all templates (minus excluded templates)
