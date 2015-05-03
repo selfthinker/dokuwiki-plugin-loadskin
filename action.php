@@ -180,11 +180,11 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
             $id   = $ID;
 
             // remove language path from $id before you check for a match (it would only be at the start)
-            if (file_exists(DOKU_PLUGIN."translation/helper.php") && !plugin_isdisabled("translation")) {
-                $transplugin = &plugin_load("helper", "translation");
-                $langPath = $transplugin->getLangPart($ID).':';
+            if ($this->getConf('inheritInTranslations') && !plugin_isdisabled('translation')) {
+                $transplugin = &plugin_load('helper', 'translation');
+                $langPath = $transplugin->getLangPart($id).':';
                 $pos = strpos($id, $langPath);
-                if (($pos !== false) and ($pos == 0))
+                if (($pos !== false) && ($pos == 0))
                     $id = str_ireplace($langPath, '', $id);
             }
 
