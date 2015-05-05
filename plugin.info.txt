@@ -1,7 +1,7 @@
 base     loadskin
 author   Anika Henke (previous author: Michael Klier)
 email    anika@selfthinker.org
-date     2015-05-03
+date     2015-05-05
 name     LoadSkin Plugin
 desc     Change the skin/template/theme; admins can select templates per page/namespace, or users can select a template for the whole wiki
 url      http://dokuwiki.org/plugin:loadskin
