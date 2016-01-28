@@ -33,24 +33,25 @@ class admin_plugin_loadskin extends DokuWiki_Admin_Plugin {
      * handle user request
      */
     public function handle() {
+        global $INPUT;
         $data = array();
 
         if(!empty($_REQUEST['pattern'])) {
             if (!checkSecurityToken()) return;
-            $id = cleanID($_REQUEST['pattern']);
+            $id = cleanID($INPUT->str('pattern'));
 
-            if($_REQUEST['act'] == 'add') {
+            if($INPUT->str('act') == 'add') {
                 if(@file_exists($this->config)) {
                     $data = unserialize(io_readFile($this->config, false));
-                    $data[$id] = $_REQUEST['tpl'];
+                    $data[$id] = $INPUT->str('tpl');
                     io_saveFile($this->config, serialize($data));
                 } else {
-                    $data[$id] = $_REQUEST['tpl'];
+                    $data[$id] = $INPUT->str('tpl');
                     io_saveFile($this->config, serialize($data));
                 }
             }
 
-            if($_REQUEST['act'] == 'del') {
+            if($INPUT->str('act') == 'del') {
                 $data = unserialize(io_readFile($this->config, false));
                 unset($data[$id]);
                 io_saveFile($this->config, serialize($data));
