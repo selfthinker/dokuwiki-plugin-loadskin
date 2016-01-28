@@ -17,7 +17,7 @@ class admin_plugin_loadskin extends DokuWiki_Admin_Plugin {
     /**
      * Constructor
      */
-    public function admin_plugin_loadskin() {
+    public function __construct() {
         $this->setupLocale();
         $this->config = DOKU_CONF.'loadskin.conf';
     }
