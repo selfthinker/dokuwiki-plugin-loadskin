@@ -21,7 +21,7 @@ require_once(DOKU_PLUGIN.'action.php');
 class action_plugin_loadskin extends DokuWiki_Action_Plugin {
 
     // register hook
-    public function register(&$controller) {
+    public function register(Doku_Event_Handler $controller) {
         $controller->register_hook('DOKUWIKI_STARTED', 'BEFORE', $this, '_handleConf');
         $controller->register_hook('MEDIAMANAGER_STARTED', 'BEFORE', $this, '_handleConf');
         $controller->register_hook('DETAIL_STARTED', 'BEFORE', $this, '_handleConf');
@@ -39,7 +39,7 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
      *
      * @author Anika Henke <anika@selfthinker.org>
      */
-    public function _defineConstants(&$event, $param) {
+    public function _defineConstants(Doku_Event $event, $param) {
         global $conf;
 
         // define Template baseURL
@@ -57,7 +57,7 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
      * @author Michael Klier <chi@chimeric.de>
      * @author Anika Henke <anika@selfthinker.org>
      */
-    public function _handleConf(&$event, $param) {
+    public function _handleConf(Doku_Event $event, $param) {
         global $conf;
 
         // store original template in helper attribute
@@ -76,7 +76,7 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
      *
      * @author Anika Henke <anika@selfthinker.org>
      */
-    public function _handleContent(&$event, $param){
+    public function _handleContent(Doku_Event $event, $param){
         // @todo: should ideally be in showTemplateSwitcher()
         $isOverwrittenByAdmin = !$this->getConf('preferUserChoice') && $this->_getTplPerNamespace();
 
