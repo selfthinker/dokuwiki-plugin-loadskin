@@ -67,7 +67,9 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
 
         // set template
         $tpl = $this->_getTpl();
-        if($tpl && ($ACT != 'admin')) {
+        $inAdmin = $ACT == 'admin';
+        $allowInAdmin = $this->getConf('allowInAdmin');
+        if($tpl && (!$inAdmin || ($inAdmin && $allowInAdmin))) {
             $conf['template'] = $tpl;
         }
     }

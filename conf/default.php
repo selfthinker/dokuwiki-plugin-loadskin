@@ -10,3 +10,4 @@ $conf['mobileSwitch']          = 0;
 $conf['mobileTemplate']        = '';
 $conf['preferUserChoice']      = 1;
 $conf['inheritInTranslations'] = 1;
+$conf['allowInAdmin']          = 0;
