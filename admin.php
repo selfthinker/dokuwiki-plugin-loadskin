@@ -36,7 +36,7 @@ class admin_plugin_loadskin extends DokuWiki_Admin_Plugin {
         global $INPUT;
         $data = array();
 
-        if(!empty($_REQUEST['pattern'])) {
+        if(!$INPUT->str('pattern')) {
             if (!checkSecurityToken()) return;
             $id = cleanID($INPUT->str('pattern'));
 

@@ -59,6 +59,7 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
      */
     public function _handleConf(Doku_Event $event, $param) {
         global $conf;
+        global $ACT;
 
         // store original template in helper attribute
         $helper = $this->loadHelper('loadskin', true);
@@ -66,7 +67,7 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
 
         // set template
         $tpl = $this->_getTpl();
-        if($tpl && $_REQUEST['do'] != 'admin') {
+        if($tpl && ($ACT != 'admin')) {
             $conf['template'] = $tpl;
         }
     }
@@ -117,6 +118,8 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
      * @author Anika Henke <anika@selfthinker.org>
      */
     private function _getTplPerUser() {
+        global $INPUT;
+
         // get all available templates
         $helper = $this->loadHelper('loadskin', true);
         $tpls   = $helper->getTemplates();
@@ -124,8 +127,8 @@ class action_plugin_loadskin extends DokuWiki_Action_Plugin {
         $mobileSwitch = $this->getConf('mobileSwitch');
         $user = $_SERVER['REMOTE_USER'];
 
-        $tplRequest = $_REQUEST['tpl'];
-        $actSelect  = $_REQUEST['act'] && ($_REQUEST['act']=='select');
+        $tplRequest = $INPUT->str('tpl');
+        $actSelect  = $INPUT->str('act') && ($INPUT->str('act') == 'select');
 
         // if template switcher was used
         if ($tplRequest && $actSelect && (in_array($tplRequest, $tpls) || ($tplRequest == '*') )) {
